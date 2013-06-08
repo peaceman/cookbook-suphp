@@ -32,4 +32,6 @@ end
   cookbook_file "#{node[:apache][:dir]}/mods-available/#{filename}" do
     source filename
   end
+
+  notifies :restart, resources(:service => 'apache2')
 end
