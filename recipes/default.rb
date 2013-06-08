@@ -7,6 +7,7 @@ end
 
 configure_options = %W{
 --prefix=/usr
+--sysconfdir=/etc
 --with-setid-mode=#{node[:suphp][:setid_mode]}
 --with-min-uid=#{node[:suphp][:min_uid]}
 --with-min-gid=#{node[:suphp][:min_gid]}
@@ -23,6 +24,7 @@ bash 'build and install suphp' do
     (cd #{node[:suphp][:download_filename].sub(/\.tar\.gz/, '')} && automake --add-missing && autoreconf})
     (cd #{node[:suphp][:download_filename].sub(/\.tar\.gz/, '')} && ./configure #{configure_options.join(' ')})
     (cd #{node[:suphp][:download_filename].sub(/\.tar\.gz/, '')} && make && make install)
+    (cd #{node[:suphp][:download_filename].sub(/\.tar\.gz/, '')}/doc && cp suphp.conf-example /etc)
   EOF
 
   not_if { ::File.exists?('/usr/sbin/suphp') }
