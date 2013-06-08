@@ -33,7 +33,6 @@ end
 %w{ suphp.load suphp.conf }.each do |filename|
   cookbook_file "#{node[:apache][:dir]}/mods-available/#{filename}" do
     source filename
+    notifies :restart, resources(:service => 'apache2')
   end
-
-  notifies :restart, resources(:service => 'apache2')
 end
