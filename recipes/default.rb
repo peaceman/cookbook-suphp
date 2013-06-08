@@ -24,6 +24,8 @@ bash 'build and install suphp' do
     (cd #{node[:suphp][:download_filename].sub(/\.tar\.gz/, '')} && ./configure #{configure_options.join(' ')})
     (cd #{node[:suphp][:download_filename].sub(/\.tar\.gz/, '')} && make && make install)
   EOF
+
+  not_if { ::File.exists?('/usr/sbin/suphp') }
 end
 
 %w{ suphp.load suphp.conf }.each do |filename|
